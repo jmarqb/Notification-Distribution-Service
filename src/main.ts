@@ -17,8 +17,8 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-    .setTitle('Manager Notification API')
-    .setDescription('API for managing projects and tasks')
+    .setTitle('Notification Distribution Service API')
+    .setDescription('Microservice Designed to Receive, Process, and Deliver Notifications')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
