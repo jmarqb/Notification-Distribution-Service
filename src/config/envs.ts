@@ -15,6 +15,7 @@ interface EnvVars {
   APP_EMAIL_MAILGUN_KEY: string;
   APP_EMAIL_MAILGUN_DOMAIN: string;
   APP_EMAIL_MAILGUN_USERNAME: string;
+  NOTIFICATIONS_BATCH_SIZE_LIMIT: number;
 }
 
 const envsSchema = joi
@@ -31,6 +32,7 @@ const envsSchema = joi
     APP_EMAIL_MAILGUN_KEY: joi.string().required(),
     APP_EMAIL_MAILGUN_DOMAIN: joi.string().required(),
     APP_EMAIL_MAILGUN_USERNAME: joi.string().required(),
+    NOTIFICATIONS_BATCH_SIZE_LIMIT: joi.number().required(),
   })
   .unknown(true);
 
@@ -47,6 +49,7 @@ const { error, value } = envsSchema.validate({
   APP_EMAIL_MAILGUN_KEY: process.env.APP_EMAIL_MAILGUN_KEY,
   APP_EMAIL_MAILGUN_DOMAIN: process.env.APP_EMAIL_MAILGUN_DOMAIN,
   APP_EMAIL_MAILGUN_USERNAME: process.env.APP_EMAIL_MAILGUN_USERNAME,
+  NOTIFICATIONS_BATCH_SIZE_LIMIT: process.env.NOTIFICATIONS_BATCH_SIZE_LIMIT,
 });
 
 if (error) {
@@ -68,4 +71,5 @@ export const envs = {
   app_email_mailgun_key: envVars.APP_EMAIL_MAILGUN_KEY,
   app_email_mailgun_domain: envVars.APP_EMAIL_MAILGUN_DOMAIN,
   app_email_mailgun_username: envVars.APP_EMAIL_MAILGUN_USERNAME,
+  notifications_batch_size_limit: envVars.NOTIFICATIONS_BATCH_SIZE_LIMIT,
 };

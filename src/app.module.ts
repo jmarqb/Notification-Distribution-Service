@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TraceModule } from './trace/trace.module';
 import { envs } from './config';
 import { EmailModule } from './email/email.module';
+import { RedisModule } from './redis/redis.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { EmailModule } from './email/email.module';
     CommonModule,
     TraceModule,
     EmailModule,
+    RedisModule.register(),
+    NotificationModule,
   ],
   controllers: [],
   providers: [],

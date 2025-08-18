@@ -1,30 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsObject,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { ProcessingTraceStatusEnum } from '../constants/processing-trace-status.enum';
+import { Notification } from '../../notification/entities';
+import { TraceMetaDataDto } from './trace-meta-data.dto';
 
 export class CreateTraceDto {
-  @ApiProperty({
-    example: 'c589e948-fb91-475c-9043-1b4c05bec681',
-    description: 'The Trace id',
-  })
   @IsNotEmpty()
   @IsUUID()
   @IsString()
   _id: string;
 
-  @ApiProperty({
-    example: 'c589e948-fb91-475c-9043-1b4c05bec681',
-    description: 'The notification id',
-  })
   @IsNotEmpty()
-  @IsUUID()
   @IsString()
-  notification: string;
+  description: string;
+
+  @IsNotEmpty()
+  @IsEnum(ProcessingTraceStatusEnum)
+  @IsString()
+  processingStatus: ProcessingTraceStatusEnum;
 
   @ApiProperty({
-    example: 'Notification processed successfully',
-    description: 'The notification process status',
+    example: Notification,
   })
   @IsNotEmpty()
-  @IsString()
-  info: string;
+  @IsObject()
+  @ValidateNested()
+  info: TraceMetaDataDto;
 }

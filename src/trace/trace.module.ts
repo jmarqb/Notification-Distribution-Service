@@ -13,5 +13,6 @@ import { Trace, TraceSchema } from './entities/trace.entity';
     ]),
   ],
   providers: [TraceService],
+  exports: [TraceService],
 })
 export class TraceModule {}
