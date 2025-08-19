@@ -122,6 +122,37 @@ export class NotificationService {
     }
   }
 
+  async handleTimeoutNotifications() {
+    try {
+      this.logger.log('Checking pending notifications...');
+
+      const allHashes = (await this.redisService.getAllActiveHashes()) ?? [];
+      this.logger.log(
+        `Retrieved ${allHashes?.length} hashes of the notification stored.`,
+      );
+      for (const hash of allHashes) {
+        const listLength = await this.redisService.getListLength(
+          `notification:${hash}`,
+        );
+        this.logger.log(`Hash ${hash} has ${listLength} notifications.`);
+
+        await this.processBatchNotification(hash);
+
+        this.logger.log(
+          `Notification with hash ${hash} processed successfully.`,
+        );
+
+        await this.removeProcessedBatch(hash);
+        this.logger.log(`Notification with hash ${hash} removed from store.`);
+
+        await this.redisService.removeHashFromList(hash);
+        this.logger.log(`Hash ${hash} removed from the list of active hashes.`);
+      }
+    } catch (error) {
+      this.logger.error(`Error processing notifications: ${error.details}`);
+    }
+  }
+
   async handleNotification() {
     //Get all the hashes (keys) of the notifications stored in Redis.
     const allHashes = (await this.redisService.getAllActiveHashes()) ?? [];
