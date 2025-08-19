@@ -10,6 +10,7 @@ import { RedisService } from '../redis/redis.service';
 import { EmailModule } from '../email/email.module';
 import { EmailService } from '../email/email.service';
 import { TraceModule } from '../trace/trace.module';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -34,5 +35,6 @@ import { TraceModule } from '../trace/trace.module';
     RedisService,
     EmailService,
   ],
+  exports: [NotificationService],
 })
 export class NotificationModule {}
