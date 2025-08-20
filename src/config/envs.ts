@@ -21,7 +21,7 @@ interface EnvVars {
 
 const envsSchema = joi
   .object({
-    PORT: joi.number().required(),
+    PORT: joi.number().default(3000),
     MONGO_CNN: joi.string().required(),
     REDIS_PORT: joi.number().required(),
     REDIS_HOST: joi.string().required(),
