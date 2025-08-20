@@ -56,9 +56,11 @@ export class NotificationService {
       deliveryChannel === DeliveryChannel.Email &&
       notificationType === NotificationType.Instant
     ) {
-      await this.processNotificationByEmailAndInstant(createNotificationDto);
+      return await this.processNotificationByEmailAndInstant(
+        createNotificationDto,
+      );
     } else if (deliveryChannel === DeliveryChannel.System) {
-      await this.processNotificationBySystem(createNotificationDto);
+      return await this.processNotificationBySystem(createNotificationDto);
     }
   }
 
