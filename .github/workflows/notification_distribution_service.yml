@@ -1,0 +1,68 @@
+name: NOTIFICATION DISTRIBUTION SERVICE TEST Report
+
+on:
+  push:
+    branches:
+      - main
+      - hotfix/**
+  pull_request:
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Create temporary .env
+        run: |
+          echo "PORT=3000" >> .env
+          echo "MONGO_CNN='mongodb://localhost:27017/ms-notifications-test'" >> .env
+          echo "REDIS_PORT=6379" >> .env
+          echo "REDIS_HOST='127.0.0.1'" >> .env
+          echo "JWT_SECRET='testsecret'" >> .env
+          echo "MAILER_PROVIDER=mailgun" >> .env
+          echo "MAILER_GMAIL_EMAIL='test@gmail.com'" >> .env
+          echo "MAILER_GMAIL_SECRET_KEY='testkey'" >> .env
+          echo "APP_EMAIL_MAILGUN_FROM='test@example.com'" >> .env
+          echo "APP_EMAIL_MAILGUN_KEY='testkey'" >> .env
+          echo "APP_EMAIL_MAILGUN_DOMAIN='test.com'" >> .env
+          echo "APP_EMAIL_MAILGUN_USERNAME='testuser'" >> .env
+          echo "NOTIFICATIONS_BATCH_SIZE_LIMIT=5" >> .env
+          echo "CRON_SCHEDULE='*/5 * * * *'" >> .env
+
+      - name: Run tests with coverage
+        run: yarn test:cov
+        env:
+          NODE_ENV: test
+
+      - name: Test Report
+        uses: dorny/test-reporter@v2
+        if: success() || failure()
+        with:
+          name: Jest Report
+          path: reports/junit.xml
+          reporter: jest-junit
+
+      - name: Comment coverage summary
+        if: github.event_name == 'pull_request'
+        run: |
+          COVERAGE=$(grep -A 2 "All files" coverage/lcov-report/index.html | tail -n1 | awk '{print $2}')
+          gh pr comment ${{ github.event.pull_request.number }} --body "🧪 **Coverage summary:** $COVERAGE"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
