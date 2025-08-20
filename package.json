@@ -55,7 +55,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.7",
+    "@types/node": "^24.3.0",
     "@types/nodemailer": "^6.4.17",
     "@types/nodemailer-mailgun-transport": "^1.4.6",
     "@types/passport-jwt": "^4.0.1",
