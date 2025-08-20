@@ -6,7 +6,6 @@ jest.mock('./gmail.provider');
 jest.mock('./mailgun.provider');
 
 describe('EmailFactory', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });

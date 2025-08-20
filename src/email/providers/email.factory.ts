@@ -3,7 +3,7 @@ import { MailgunProvider } from './mailgun.provider';
 import { EmailProviderInterface } from '../interfaces';
 
 export class EmailFactory {
-  static createProvider(providerName: string):EmailProviderInterface {
+  static createProvider(providerName: string): EmailProviderInterface {
     switch (providerName.toLowerCase()) {
       case 'gmail':
         return new GmailProvider();

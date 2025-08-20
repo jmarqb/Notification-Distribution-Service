@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Trace } from './entities/trace.entity';
 import { getModelToken } from '@nestjs/mongoose';
 import { CreateTraceDto } from './dto/create-trace.dto';
+import { ProcessingTraceStatusEnum } from './constants/processing-trace-status.enum';
 
 describe('TraceService', () => {
   let traceService: TraceService;
@@ -35,15 +36,17 @@ describe('TraceService', () => {
   it('should be create and return a trace', async () => {
     const dto: CreateTraceDto = {
       _id: 'c589e948-fb91-475c-9043-1b4c05bec680',
-      notification: 'c589e948-fb91-475c-9043-1b4c05bec681',
-      info: 'Notification processed successfully',
-    };
+      description: 'c589e948-fb91-475c-9043-1b4c05bec681',
+      processingStatus: ProcessingTraceStatusEnum.SUCCESS,
+      info: {},
+    } as unknown as CreateTraceDto;
 
     const traceCreated: Trace = {
       _id: dto._id,
-      notification: dto.notification,
+      description: dto.description,
+      processingStatus: dto.processingStatus,
       info: dto.info,
-    };
+    } as unknown as Trace;
 
     jest.spyOn(traceModel, 'create').mockResolvedValue(traceCreated as any);
 
