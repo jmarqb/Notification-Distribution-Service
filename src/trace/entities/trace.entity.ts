@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { ProcessingTraceStatusEnum } from '../constants/processing-trace-status.enum';
+import { Notification } from '../../notification/entities';
+import { TraceMetaDataDto } from '../dto/trace-meta-data.dto';
 
 @Schema()
 export class Trace {
@@ -10,20 +13,28 @@ export class Trace {
   @Prop({ required: true, type: String })
   _id: string;
 
-  @ApiProperty({
-    example: 'c589e948-fb91-475c-9043-1b4c05bec681',
-    description: 'The notification id',
-  })
-  @Prop({ type: String, ref: 'Notification', required: true })
-  notification: string;
+  @Prop({ required: true, type: String })
+  description: string;
 
   @ApiProperty({
-    example: 'Notification processed successfully',
-    description: 'The notification process status',
+    example: 'FAIL',
+    description: 'The notification processing status',
   })
-  @Prop({ type: String, required: true })
-  info: string;
+  @Prop({
+    type: String,
+    required: true,
+    index: true,
+    enum: Object.values(ProcessingTraceStatusEnum),
+  })
+  processingStatus: ProcessingTraceStatusEnum;
+
+  @ApiProperty({
+    example: Notification,
+  })
+  @Prop({ type: TraceMetaDataDto, required: true })
+  info: TraceMetaDataDto;
 }
+
 export const TraceSchema = SchemaFactory.createForClass(Trace);
 TraceSchema.set('versionKey', false);
 TraceSchema.set('timestamps', true);

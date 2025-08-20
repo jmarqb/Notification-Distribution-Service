@@ -26,13 +26,18 @@
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.0.0",
     "@nestjs/swagger": "^11.2.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "cron-parser": "^5.3.0",
     "dotenv": "^17.2.1",
+    "ioredis": "^5.7.0",
     "joi": "^18.0.0",
     "mongoose": "^8.17.1",
+    "nodemailer": "^7.0.5",
+    "nodemailer-mailgun-transport": "^2.1.5",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
@@ -51,6 +56,8 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@types/nodemailer": "^6.4.17",
+    "@types/nodemailer-mailgun-transport": "^1.4.6",
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
@@ -58,6 +65,7 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
@@ -69,20 +77,19 @@
     "typescript-eslint": "^8.20.0"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
+    "moduleFileExtensions": ["js", "json", "ts"],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
+    "collectCoverageFrom": ["**/*.(t|j)s"],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageReporters": ["text", "lcov", "cobertura", "html"],
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      ["jest-junit", { "outputDirectory": "./reports", "outputName": "junit.xml" }]
+    ]
   }
 }

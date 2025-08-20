@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ENTITY_NOT_FOUND_EXAMPLE {
   @ApiProperty({
-    example: 'The entity with the id c589e948-fb91-475c-9043-1b4c05bec680 not found',
+    example:
+      'The entity with the id c589e948-fb91-475c-9043-1b4c05bec680 not found',
     description: 'ENTITY_NOT_FOUND',
   })
   message: string;
