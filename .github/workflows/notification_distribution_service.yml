@@ -43,6 +43,7 @@ jobs:
           echo "APP_EMAIL_MAILGUN_KEY='testkey'" >> .env
           echo "APP_EMAIL_MAILGUN_DOMAIN='test.com'" >> .env
           echo "APP_EMAIL_MAILGUN_USERNAME='testuser'" >> .env
+          echo "SENTRY_DSN='https://examplePublicKey@o0.ingest.sentry.io/0'" >> .env
           echo "NOTIFICATIONS_BATCH_SIZE_LIMIT=5" >> .env
           echo "CRON_SCHEDULE='*/5 * * * *'" >> .env
 
