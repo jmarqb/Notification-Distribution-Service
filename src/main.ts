@@ -1,10 +1,14 @@
+import './config/instrument';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { envs } from './config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
-import { HttpExceptionFilter } from './common/filters';
+import {
+  HttpExceptionFilter,
+  SentryGlobalExceptionFilter,
+} from './common/filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,7 +16,10 @@ async function bootstrap() {
 
   app.setGlobalPrefix(prefix);
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(
+    new HttpExceptionFilter(),
+    new SentryGlobalExceptionFilter(),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({
