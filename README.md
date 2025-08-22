@@ -14,7 +14,7 @@
 7. [Docker Stack](#docker-stack)
 8. [Test](#test)
 9. [API Documentation](#api-documentation)
-10. [Contact & Follow](#contact-&-follow)
+10. [Contact & Follow](#contact--follow)
 
 
 ### General Info
