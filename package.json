@@ -28,6 +28,8 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/schedule": "^6.0.0",
     "@nestjs/swagger": "^11.2.0",
+    "@sentry/nestjs": "^10.5.0",
+    "@sentry/profiling-node": "^10.5.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -77,19 +79,36 @@
     "typescript-eslint": "^8.20.0"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "json", "ts"],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
     "coverageDirectory": "../coverage",
-    "coverageReporters": ["text", "lcov", "cobertura", "html"],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "cobertura",
+      "html"
+    ],
     "testEnvironment": "node",
     "reporters": [
       "default",
-      ["jest-junit", { "outputDirectory": "./reports", "outputName": "junit.xml" }]
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./reports",
+          "outputName": "junit.xml"
+        }
+      ]
     ]
   }
 }
