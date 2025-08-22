@@ -17,6 +17,7 @@ interface EnvVars {
   APP_EMAIL_MAILGUN_USERNAME: string;
   NOTIFICATIONS_BATCH_SIZE_LIMIT: number;
   CRON_SCHEDULE: string;
+  SENTRY_DSN: string;
 }
 
 const envsSchema = joi
@@ -35,6 +36,7 @@ const envsSchema = joi
     APP_EMAIL_MAILGUN_USERNAME: joi.string().required(),
     NOTIFICATIONS_BATCH_SIZE_LIMIT: joi.number().required(),
     CRON_SCHEDULE: joi.string().default('*/5 * * * *'),
+    SENTRY_DSN: joi.string().required(),
   })
   .unknown(true);
 
@@ -53,6 +55,7 @@ const { error, value } = envsSchema.validate({
   APP_EMAIL_MAILGUN_USERNAME: process.env.APP_EMAIL_MAILGUN_USERNAME,
   NOTIFICATIONS_BATCH_SIZE_LIMIT: process.env.NOTIFICATIONS_BATCH_SIZE_LIMIT,
   CRON_SCHEDULE: process.env.CRON_SCHEDULE,
+  SENTRY_DSN: process.env.SENTRY_DSN,
 });
 
 if (error) {
@@ -76,4 +79,5 @@ export const envs = {
   app_email_mailgun_username: envVars.APP_EMAIL_MAILGUN_USERNAME,
   notifications_batch_size_limit: envVars.NOTIFICATIONS_BATCH_SIZE_LIMIT,
   cron_schedule: envVars.CRON_SCHEDULE,
+  sentry_dsn: envVars.SENTRY_DSN,
 };
