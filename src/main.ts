@@ -17,8 +17,8 @@ async function bootstrap() {
   app.setGlobalPrefix(prefix);
 
   app.useGlobalFilters(
-    new HttpExceptionFilter(),
     new SentryGlobalExceptionFilter(),
+    new HttpExceptionFilter(),
   );
 
   app.useGlobalPipes(
