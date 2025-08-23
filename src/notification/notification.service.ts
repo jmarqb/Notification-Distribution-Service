@@ -21,6 +21,7 @@ import { TraceService } from '../trace/trace.service';
 import { DeliveryChannel, NotificationType } from './constants';
 import { envs } from '../config';
 import { ProcessingTraceStatusEnum } from '../trace/constants/processing-trace-status.enum';
+import { RedisNamespacesPrefix } from '../redis/constants';
 
 @Injectable()
 export class NotificationService {
@@ -134,7 +135,7 @@ export class NotificationService {
       );
       for (const hash of allHashes) {
         const listLength = await this.redisService.getListLength(
-          `notification:${hash}`,
+          `${RedisNamespacesPrefix.NOTIFICATION}:${hash}`,
         );
         this.logger.log(`Hash ${hash} has ${listLength} notifications.`);
 
@@ -165,7 +166,9 @@ export class NotificationService {
     for (const hash of allHashes) {
       //For each hash, check if the notification has exceeded the batch size.
       const listLength =
-        (await this.redisService.getListLength(`notification:${hash}`)) ?? 0;
+        (await this.redisService.getListLength(
+          `${RedisNamespacesPrefix.NOTIFICATION}:${hash}`,
+        )) ?? 0;
       this.logger.log(`Hash ${hash} has ${listLength} notifications.`);
 
       if (listLength >= envs.notifications_batch_size_limit) {

@@ -9,6 +9,7 @@ import {
 import RedisClient from 'ioredis';
 import { CreateNotificationDto } from '../notification/dto';
 import { REDIS_CLIENT } from './constants/redis-client';
+import { RedisNamespacesPrefix } from './constants';
 
 @Injectable()
 export class RedisService implements OnModuleDestroy {
@@ -26,7 +27,7 @@ export class RedisService implements OnModuleDestroy {
   async addNotificationToBach(key: string, value: CreateNotificationDto) {
     try {
       const result = await this.client.rpush(
-        `notification:${key}`,
+        `${RedisNamespacesPrefix.NOTIFICATION}:${key}`,
         JSON.stringify(value),
       );
       this.logger.log(
@@ -40,11 +41,11 @@ export class RedisService implements OnModuleDestroy {
 
   async retrieveBatchNotifications(key: string) {
     this.logger.log(
-      `Recovering notifications stored with key: notification:${key}`,
+      `Recovering notifications stored with key: ${RedisNamespacesPrefix.NOTIFICATION}:${key}`,
     );
     try {
       const notifications = await this.client.lrange(
-        `notification:${key}`,
+        `${RedisNamespacesPrefix.NOTIFICATION}:${key}`,
         0,
         -1,
       );
@@ -57,10 +58,10 @@ export class RedisService implements OnModuleDestroy {
 
   async removeBatchNotifications(key: string): Promise<void> {
     this.logger.log(
-      `Deleting notifications from store with key: notification:${key}`,
+      `Deleting notifications from store with key: ${RedisNamespacesPrefix.NOTIFICATION}:${key}`,
     );
     try {
-      await this.client.del(`notification:${key}`);
+      await this.client.del(`${RedisNamespacesPrefix.NOTIFICATION}:${key}`);
       this.logger.log(`Notifications deleted successfully.`);
     } catch (error) {
       this.handlerError(error);
@@ -80,7 +81,7 @@ export class RedisService implements OnModuleDestroy {
   async addHashToList(hash: string): Promise<void> {
     this.logger.log(`Adding hash ${hash} to active hashes list.`);
     try {
-      await this.client.sadd('active_hashes', hash);
+      await this.client.sadd(`${RedisNamespacesPrefix.ACTIVE_HASHES}`, hash);
       this.logger.log(`Hash ${hash} added successfully.`);
     } catch (error) {
       this.handlerError(error);
@@ -89,7 +90,9 @@ export class RedisService implements OnModuleDestroy {
 
   async getAllActiveHashes() {
     try {
-      const hashes = await this.client.smembers('active_hashes');
+      const hashes = await this.client.smembers(
+        `${RedisNamespacesPrefix.ACTIVE_HASHES}`,
+      );
       this.logger.log(`Recovered ${hashes.length} active hashes.`);
       return hashes;
     } catch (error) {
@@ -99,7 +102,7 @@ export class RedisService implements OnModuleDestroy {
 
   async removeHashFromList(hash: string): Promise<void> {
     try {
-      await this.client.srem('active_hashes', hash);
+      await this.client.srem(`${RedisNamespacesPrefix.ACTIVE_HASHES}`, hash);
       this.logger.log(`Hash ${hash} removed successfully.`);
     } catch (error) {
       this.handlerError(error);
