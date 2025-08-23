@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@keyv/redis": "^5.1.1",
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
@@ -31,12 +33,14 @@
     "@sentry/nestjs": "^10.5.0",
     "@sentry/profiling-node": "^10.5.0",
     "bcrypt": "^6.0.0",
+    "cache-manager": "^7.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "cron-parser": "^5.3.0",
     "dotenv": "^17.2.1",
     "ioredis": "^5.7.0",
     "joi": "^18.0.0",
+    "keyv": "^5.5.0",
     "mongoose": "^8.17.1",
     "nodemailer": "^7.0.5",
     "nodemailer-mailgun-transport": "^2.1.5",

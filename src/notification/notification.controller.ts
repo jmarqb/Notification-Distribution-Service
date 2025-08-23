@@ -29,6 +29,7 @@ import {
   UNAUTHORIZED_EXAMPLE,
 } from '../common';
 import { Notification } from './entities';
+import { CacheTTL } from '@nestjs/common/cache';
 
 @ApiTags('Notification')
 @ApiBearerAuth()
@@ -64,6 +65,7 @@ export class NotificationController {
     return this.notificationService.create(createNotificationDto);
   }
 
+  @CacheTTL(10000)
   @Get()
   @Auth(UserRoleEnum.USER)
   @ApiOperation({
@@ -84,6 +86,7 @@ export class NotificationController {
     return this.notificationService.findAll(paginationDto);
   }
 
+  @CacheTTL(10000)
   @Get(':id')
   @Auth(UserRoleEnum.USER)
   @ApiOperation({ summary: 'Find a Notification for ID' })
@@ -111,6 +114,7 @@ export class NotificationController {
     return this.notificationService.findOne(id);
   }
 
+  @CacheTTL(10000)
   @Get('user/:id')
   @Auth(UserRoleEnum.USER)
   @ApiOperation({ summary: 'Find a Notification for User ID' })
